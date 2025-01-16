@@ -165,7 +165,7 @@ ModelOptimizerPll::ModelOptimizerPll (MsaPll &_msa,
       model.set_loglh(cur_loglh);
       model.set_exec_time(end_time - start_time);
 
-      model.evaluate_criteria(n_branches, msa.get_n_sites());
+      model.evaluate_criteria(n_branches, partition.get_n_sites());
 
       if (optimize_topology)
         model.set_tree(pll_tree);
