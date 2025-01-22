@@ -180,6 +180,12 @@ int main(int argc, char *argv[])
 
         ofstream * results_stream = 0;
 
+        ofstream xml_stream;
+        if (ROOT) {
+           xml_stream = ofstream(opts.output_results_file + ".xml", std::ios::out);
+           xml_stream << "<modeltestresults>" << endl;
+        }
+
         if (ROOT)
           results_stream = modeltest::Utils::open_file_for_writing(opts.output_results_file);
 
@@ -283,6 +289,13 @@ int main(int argc, char *argv[])
                                                                   MT_INFO);
               }
 
+            xml_stream << "<partition id=\"" <<  i << "\">" << endl;
+            bic_selection->print_xml(xml_stream);
+            aic_selection->print_xml(xml_stream);
+            aicc_selection->print_xml(xml_stream);
+            xml_stream << "</partition>" << endl;
+
+
               delete bic_selection;
               delete aic_selection;
               delete aicc_selection;
@@ -368,6 +381,14 @@ int main(int argc, char *argv[])
                       << opts.output_tree_file << endl;
           //MT_INFO << "Log written to " << opts.output_log_file << endl;
 
+
+          if (ROOT) {
+            xml_stream << "</modeltestresults>" << endl;
+            xml_stream.close();
+
+            MT_INFO << "Model selections written to " << opts.output_results_file << ".xml." << endl;
+          }
+
           /* clean */
           if (opts.partitions_desc)
               delete opts.partitions_desc;
@@ -399,6 +420,7 @@ int main(int argc, char *argv[])
 BARRIER;
 
     ModelTestService::finalize( false );
+
 
     return return_val;
 }

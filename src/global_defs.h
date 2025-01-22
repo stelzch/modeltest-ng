@@ -65,7 +65,7 @@
 #define ERR_MSG_SIZE 240
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
-#define MT_PRECISION_DIGITS 4
+#define MT_PRECISION_DIGITS 17
 
 #define DEFAULT_GAMMA_RATE_CATS   4
 #define DEFAULT_GAMMA_RATE_MODE   PLL_GAMMA_RATES_MEAN
