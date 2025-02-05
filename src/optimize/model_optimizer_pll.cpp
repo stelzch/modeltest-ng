@@ -198,6 +198,7 @@ ModelOptimizerPll::ModelOptimizerPll (MsaPll &_msa,
     if (opt_per_param)
     {
       bool all_params_done = false;
+      size_t i = 0;
       while ((fabs (cur_loglh - save_loglh) > epsilon && cur_loglh > save_loglh))
       {
         save_loglh = cur_loglh;
@@ -222,7 +223,10 @@ ModelOptimizerPll::ModelOptimizerPll (MsaPll &_msa,
           opt_delta = cur_loglh;
           notify();
         }
+          ++i;
       }
+
+      LOG_INFO << "\t\t" << model.get_name() << " part " << partition.get_unique_id() << " eps-iteration count: " << i << endl;
     }
     else
     {
