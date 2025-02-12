@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
         ofstream xml_stream;
         if (ROOT) {
            xml_stream = ofstream(opts.output_results_file + ".xml", std::ios::out);
-           xml_stream << "<modeltestresults>" << endl;
+           xml_stream << "<modeltestresults>" << std::setprecision(17) << endl;
         }
 
         if (ROOT)
@@ -290,9 +290,15 @@ int main(int argc, char *argv[])
               }
 
             xml_stream << "<partition id=\"" <<  i << "\">" << endl;
-            bic_selection->print_xml(xml_stream);
-            aic_selection->print_xml(xml_stream);
-            aicc_selection->print_xml(xml_stream);
+            for (const auto model : ModelTestService::instance()->get_modeltest()->get_models(part_id)) {
+              xml_stream << "<model name=\"" << model->get_name()
+              << "\" lnL=\"" << model->get_loglh()
+              << "\" score-bic=\"" << model->get_bic()
+              << "\" score-aic=\"" << model->get_aic()
+              << "\" score-aicc=\"" << model->get_aicc()
+              << "\" free-params=\"" << model->get_n_free_variables()
+              << "\" />" << endl;
+            }
             xml_stream << "</partition>" << endl;
 
 
